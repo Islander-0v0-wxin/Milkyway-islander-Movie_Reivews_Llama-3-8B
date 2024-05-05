@@ -1,4 +1,5 @@
 # Milkyway-islander-Movie_Reivews_Llama-3-8B
+please download from huggingface using this link: https://huggingface.co/Milkyway-islander/Movie_Reivews_Llama-3-8B/tree/main
 --
 
 library_name: transformers
