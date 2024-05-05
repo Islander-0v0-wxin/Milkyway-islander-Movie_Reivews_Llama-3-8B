@@ -1,5 +1,6 @@
 # Milkyway-islander-Movie_Reivews_Llama-3-8B
 --
+
 library_name: transformers
 tags:
 - code
@@ -20,16 +21,16 @@ pipeline_tag: text-generation
 ### Model Description
 
 <!-- Provide a longer summary of what this model is. -->
-
+This model is trained and fine tuned on 1500 movie reviews from IMDB movie review dataset. It aims to generate highly human like movie reviews. 
 This is the model card of a 🤗 transformers model that has been pushed on the Hub. This model card has been automatically generated.
 
-- **Developed by:** [More Information Needed]
+- **Developed by:** [Amber Zhan]
 - **Funded by [optional]:** [More Information Needed]
 - **Shared by [optional]:** [More Information Needed]
 - **Model type:** [Text Generation]
-- **Language(s) (NLP):** [More Information Needed]
+- **Language(s) (NLP):** [English]
 - **License:** [More Information Needed]
-- **Finetuned from model [optional]:** [More Information Needed]
+- **Finetuned from model [optional]:** [Llama3-8b]
 
 ### Model Sources [optional]
 
