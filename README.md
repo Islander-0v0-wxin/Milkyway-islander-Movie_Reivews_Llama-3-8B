@@ -12,12 +12,15 @@ pipeline_tag: text-generation
 ---
 
 # Model Card for Model ID
-
+model_id = "Milkyway-islander/Movie_Reivews_Llama-3-8B"
 <!-- Provide a quick summary of what the model is/does. -->
 
 
 
 ## Model Details
+Input Models input text only.
+
+Output Models generate text and code only.
 
 ### Model Description
 
@@ -41,25 +44,39 @@ This is the model card of a 🤗 transformers model that has been pushed on the 
 - **Paper [optional]:** [More Information Needed]
 - **Demo [optional]:** [More Information Needed]
 
-## Uses
-
-<!-- Address questions around how the model is intended to be used, including the foreseeable users of the model and those affected by the model. -->
 
 ### Direct Use
+You can run conversational inference by loading model directly
 
-<!-- This section is for the model use without fine-tuning or plugging into a larger ecosystem/app. -->
+# Load model directly
+from transformers import AutoTokenizer, AutoModelForCausalLM
+model = AutoModelForCausalLM.from_pretrained(model_id,
+                                             device_map="auto",
+                                             quantization_config=quantization_config, #quantization is optional 
+                                             attn_implementation= "flash_attention_2",
+                                             force_download=True,
+                                             )
+tokenizer = AutoTokenizer.from_pretrained(model_id,trust_remote_code=True)
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
 
-[More Information Needed]
+inputs = tokenizer(prompt_text, return_tensors="pt", padding=True, truncation=True, max_length=4096).to("cuda")
+input_ids = inputs['input_ids']
+num_input_tokens = input_ids.shape[1]
+attention_mask = inputs['attention_mask']  # Ensure the attention mask is generated
 
-### Downstream Use [optional]
+prompt_text = ""
 
-<!-- This section is for the model use when fine-tuned for a task, or when plugged into a larger ecosystem/app -->
+# Generate the response
+output = model.generate(
+    **inputs,
+    max_length=4096 + num_input_tokens,  # Adjust max_length to account for prompt tokens
+    pad_token_id=tokenizer.eos_token_id
+)
 
-[More Information Needed]
+response = tokenizer.decode(output[0][num_input_tokens:], skip_special_tokens=True)
 
-### Out-of-Scope Use
-
-<!-- This section addresses misuse, malicious use, and uses that the model will not work well for. -->
+print(response)
 
 [More Information Needed]
 
